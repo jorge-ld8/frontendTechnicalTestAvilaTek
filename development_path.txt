@@ -51,8 +51,6 @@ Create basic layout components: Header, Footer, and a main page (src/app/page.ts
 Initialize Git repository, create main and develop branches. Push initial setup to develop.
 
 Phase 1: Form Step 1 - Travel Information (4 hours)
-Git Branch: feature/step1-travel-info (branched from develop)
-
 Tasks:
 Define TypeScript types for flight data (src/types/flight.types.ts) and Step 1 form data (src/types/form.types.ts).
 Create flightsApi.ts (src/lib/flightsApi.ts) to fetch data from https://raw.githubusercontent.com/Lstanislao/cities-permalink/main/flights.json.
@@ -66,8 +64,6 @@ Basic styling and layout for the step.
 Merge: feature/step1-travel-info into develop.
 
 Phase 2: Form Step 2 - Traveler Information (6 hours)
-Git Branch: feature/step2-traveler-info (branched from develop)
-
 Tasks:
 Update form.types.ts for Step 2 data.
 Develop Step2TravelerInfo.tsx component:
@@ -87,7 +83,6 @@ Merge: feature/step2-traveler-info into develop.
 
 
 Phase 3: Form Step 3 - Additional Services (3 hours)
-Git Branch: feature/step3-additional-services (branched from develop)
 Tasks:
 Update form.types.ts for Step 3 data.
 Develop Step3AdditionalServices.tsx component:
@@ -99,7 +94,6 @@ Styling for this step.
 Merge: feature/step3-additional-services into develop.
 
 Phase 4: Multi-Step Logic & Global Form State (3 hours)
-Git Branch: feature/multi-step-form-logic (branched from develop)
 Tasks:
 Create a parent component (e.g., BookingForm.tsx in src/components/form) to manage the current step and overall form state. This will be rendered in src/app/page.tsx.
 Implement navigation (Next/Previous buttons) between steps.
@@ -108,7 +102,6 @@ Ensure data persists when navigating between steps.
 Merge: feature/multi-step-form-logic into develop.
 
 Phase 5: Form Step 4 - Summary & Confirmation (2 hours)
-Git Branch: feature/step4-summary-confirmation (branched from develop)
 Tasks:
 Develop Step4Summary.tsx component:
 Display all collected data: Destination, Dates, Class, Traveler details (including calculated ages), Pets, Luggage, Additional Services.
@@ -118,7 +111,6 @@ Styling for the summary page.
 Merge: feature/step4-summary-confirmation into develop.
 
 Phase 6: Styling, Responsiveness, Refinements & Validation (2 hours)
-Git Branch: feature/final-polish (branched from develop)
 Tasks:
 Comprehensive review of styling. Ensure minimalist and visually appealing design.
 Ensure responsiveness across common device sizes (mobile, tablet, desktop).
