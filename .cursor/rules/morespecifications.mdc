@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+do it incrementally to be committing to git in the process
+avoid using context whenever possible
+always use material ui if you can
+do not leave comment unless strictly necessary
+use a modular design and next.js functionalities to show off (see NextJs docs)
