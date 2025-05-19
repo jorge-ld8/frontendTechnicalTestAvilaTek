@@ -11,6 +11,7 @@ import {
   Stack,
 } from '@mui/material';
 import DatePickerWrapper from '../ui/DatePickerWrapper';
+import NumericTextField from '../ui/NumericTextField';
 import { TravelerFormData } from '../../types/form.types';
 
 interface TravelerFormProps {
@@ -29,6 +30,9 @@ const TravelerForm = ({ traveler, index, updateTraveler }: TravelerFormProps) =>
   const handleInputChange = (field: keyof TravelerFormData, value: string | Date | null) => {
     updateTraveler(index, { [field]: value });
   };
+
+  // Determine if document number should be numeric only based on document type
+  const isNumericDocType = traveler.documentType === 'id' || traveler.documentType === 'driverLicense';
 
   return (
     <Box sx={{ py: 1, px: 2, mb: 2, bgcolor: 'background.default', borderRadius: 1 }}>
@@ -76,15 +80,29 @@ const TravelerForm = ({ traveler, index, updateTraveler }: TravelerFormProps) =>
             </Select>
           </FormControl>
           
-          <TextField
-            fullWidth
-            size="small"
-            label="Document Number *"
-            value={traveler.documentNumber}
-            onChange={(e) => handleInputChange('documentNumber', e.target.value)}
-            margin="dense"
-            required
-          />
+          {isNumericDocType ? (
+            <NumericTextField
+              fullWidth
+              label="Document Number *"
+              value={traveler.documentNumber}
+              onChange={(value) => handleInputChange('documentNumber', value)}
+              allowDecimals={false}
+              allowNegative={false}
+              helperText="Numbers only"
+              margin="dense"
+              required
+            />
+          ) : (
+            <TextField
+              fullWidth
+              size="small"
+              label="Document Number *"
+              value={traveler.documentNumber}
+              onChange={(e) => handleInputChange('documentNumber', e.target.value)}
+              margin="dense"
+              required
+            />
+          )}
         </Box>
       </Stack>
     </Box>

@@ -5,19 +5,17 @@ import {
   Box,
   Typography,
   Stack,
-  FormControlLabel,
-  Switch,
-  FormControl,
-  FormLabel,
   Paper,
   Divider,
   IconButton,
   OutlinedInput,
-  TextField,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import TravelerForm from '../TravelerForm';
+import FormField from '../../ui/FormField';
+import SwitchWrapper from '../../ui/SwitchWrapper';
+import NumericTextField from '../../ui/NumericTextField';
 import { Step2FormData, TravelerFormData } from '../../../types/form.types';
 import { MIN_TRAVELERS, MAX_TRAVELERS, PET_PRICE, LUGGAGE_PRICE } from '../../../constants/formConstants';
 
@@ -63,7 +61,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     });
   };
 
-  // For direct input changes
   const handleTravelersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
     if (isNaN(value)) return;
@@ -71,7 +68,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     const numTravelers = Math.max(MIN_TRAVELERS, Math.min(value, MAX_TRAVELERS));
     const currentTravelers = [...formData.travelers];
     
-    // Add or remove travelers as needed
     if (numTravelers > currentTravelers.length) {
       const newTravelers = Array(numTravelers - currentTravelers.length)
         .fill(null)
@@ -93,7 +89,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     }
   };
 
-  // Handler for updating specific traveler data
   const updateTraveler = (index: number, data: Partial<TravelerFormData>) => {
     const updatedTravelers = [...formData.travelers];
     updatedTravelers[index] = { ...updatedTravelers[index], ...data };
@@ -103,10 +98,7 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     });
   };
 
-  // Handlers for pets
-  const handlePetsToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const hasPets = event.target.checked;
-    
+  const handlePetsToggle = (hasPets: boolean) => {
     updateFormData({
       pets: {
         ...formData.pets,
@@ -116,9 +108,9 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     });
   };
 
-  const handlePetsQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const quantity = parseInt(event.target.value);
-    if (isNaN(quantity) || quantity < 0) return;
+  const handlePetsQuantityChange = (value: string) => {
+    const quantity = parseInt(value || '0', 10);
+    if (isNaN(quantity)) return;
     
     updateFormData({
       pets: {
@@ -128,10 +120,7 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     });
   };
 
-  // Handlers for luggage
-  const handleLuggageToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const hasExtraLuggage = event.target.checked;
-    
+  const handleLuggageToggle = (hasExtraLuggage: boolean) => {
     updateFormData({
       extraLuggage: {
         ...formData.extraLuggage,
@@ -141,9 +130,9 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     });
   };
 
-  const handleLuggageQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const quantity = parseInt(event.target.value);
-    if (isNaN(quantity) || quantity < 0) return;
+  const handleLuggageQuantityChange = (value: string) => {
+    const quantity = parseInt(value || '0', 10);
+    if (isNaN(quantity)) return;
     
     updateFormData({
       extraLuggage: {
@@ -170,10 +159,11 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
       </Typography>
 
       <Stack spacing={2}>
-        <FormControl fullWidth>
-          <FormLabel htmlFor="numTravelers" sx={{ fontWeight: 500, mb: 1 }}>
-            Number of Travelers
-          </FormLabel>
+        <FormField
+          id="numTravelers"
+          label="Number of Travelers"
+          required
+        >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton 
               size="small" 
@@ -185,7 +175,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
             </IconButton>
             
             <OutlinedInput
-              id="numTravelers"
               type="number"
               value={formData.numberOfTravelers}
               onChange={handleTravelersChange}
@@ -195,7 +184,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
                 width: '80px', 
                 '& input': { textAlign: 'center' } 
               }}
-              required
             />
             
             <IconButton 
@@ -211,7 +199,7 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
               {`(Min: ${MIN_TRAVELERS}, Max: ${MAX_TRAVELERS})`}
             </Typography>
           </Box>
-        </FormControl>
+        </FormField>
 
         {/* Traveler Forms - Compact collection */}
         <Box>
@@ -246,31 +234,32 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
               <Stack spacing={1}>
                 <Typography variant="subtitle2">Travel with Pets</Typography>
                 
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={formData.pets.hasPets}
-                      onChange={handlePetsToggle}
-                      size="small"
-                    />
-                  }
+                <SwitchWrapper
+                  checked={formData.pets.hasPets}
+                  onChange={handlePetsToggle}
                   label="I'm traveling with pets"
                 />
 
                 {formData.pets.hasPets && (
-                  <FormControl fullWidth>
-                    <FormLabel htmlFor="petsQuantity" sx={{ fontSize: '0.875rem' }}>
-                      Number of Pets ($100 each)
-                    </FormLabel>
-                    <TextField
-                      id="petsQuantity"
-                      type="number"
+                  <FormField
+                    id="petsQuantity"
+                    label="Number of Pets ($100 each)"
+                    required={formData.pets.hasPets}
+                    labelSx={{ fontSize: '0.875rem' }}
+                  >
+                    <NumericTextField
                       value={formData.pets.quantity}
                       onChange={handlePetsQuantityChange}
-                      size="small"
-                      required={formData.pets.hasPets}
+                      min={1}
+                      step={1}
+                      allowDecimals={false}
+                      allowNegative={false}
+                      showStepper
+                      adornment={`$${formData.pets.quantity * PET_PRICE}`}
+                      adornmentPosition="end"
+                      fullWidth
                     />
-                  </FormControl>
+                  </FormField>
                 )}
               </Stack>
             </Paper>
@@ -280,31 +269,32 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
               <Stack spacing={1}>
                 <Typography variant="subtitle2">Extra Luggage</Typography>
                 
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={formData.extraLuggage.hasExtraLuggage}
-                      onChange={handleLuggageToggle}
-                      size="small"
-                    />
-                  }
+                <SwitchWrapper
+                  checked={formData.extraLuggage.hasExtraLuggage}
+                  onChange={handleLuggageToggle}
                   label="I need extra luggage"
                 />
 
                 {formData.extraLuggage.hasExtraLuggage && (
-                  <FormControl fullWidth>
-                    <FormLabel htmlFor="luggageQuantity" sx={{ fontSize: '0.875rem' }}>
-                      Number of Extra Bags ($50 each)
-                    </FormLabel>
-                    <TextField
-                      id="luggageQuantity"
-                      type="number"
+                  <FormField
+                    id="luggageQuantity"
+                    label="Number of Extra Bags ($50 each)"
+                    required={formData.extraLuggage.hasExtraLuggage}
+                    labelSx={{ fontSize: '0.875rem' }}
+                  >
+                    <NumericTextField
                       value={formData.extraLuggage.quantity}
                       onChange={handleLuggageQuantityChange}
-                      size="small"
-                      required={formData.extraLuggage.hasExtraLuggage}
+                      min={1}
+                      step={1}
+                      allowDecimals={false}
+                      allowNegative={false}
+                      showStepper
+                      adornment={`$${formData.extraLuggage.quantity * LUGGAGE_PRICE}`}
+                      adornmentPosition="end"
+                      fullWidth
                     />
-                  </FormControl>
+                  </FormField>
                 )}
               </Stack>
             </Paper>

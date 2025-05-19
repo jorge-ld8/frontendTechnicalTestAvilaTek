@@ -4,8 +4,6 @@ import { SyntheticEvent } from 'react';
 import { 
   Autocomplete, 
   Box, 
-  FormControl, 
-  FormLabel, 
   TextField, 
   Typography,
   RadioGroup,
@@ -16,6 +14,7 @@ import {
   Stack
 } from '@mui/material';
 import DatePickerWrapper from '../../ui/DatePickerWrapper';
+import FormField from '../../ui/FormField';
 import { FlightClassWithPrice } from '../../../types/flight.types';
 import { useDestinations, useFlightClasses, useFlightClassesAndPrices } from '../../../hooks/useFlights';
 import { Step1FormData } from '../../../types/form.types';
@@ -62,15 +61,12 @@ const Step1TravelInfo = ({ formData, updateFormData }: Step1TravelInfoProps) => 
 
       {status === 'success' && (
         <Stack spacing={3}>
-          <FormControl fullWidth>
-            <FormLabel 
-              htmlFor="destination"
-              sx={{ mb: 1, fontWeight: 500 }}
-            >
-              Destination
-            </FormLabel>
+          <FormField
+            id="destination"
+            label="Destination"
+            required
+          >
             <Autocomplete
-              id="destination"
               options={destinations}
               value={formData.destination}
               onChange={handleDestinationChange}
@@ -78,64 +74,52 @@ const Step1TravelInfo = ({ formData, updateFormData }: Step1TravelInfoProps) => 
                 <TextField 
                   {...params} 
                   placeholder="Select your destination" 
-                  required
                   size="small"
                   margin="dense"
                 />
               )}
               isOptionEqualToValue={(option, value) => option === value}
             />
-          </FormControl>
+          </FormField>
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <FormControl fullWidth>
-              <FormLabel 
-                htmlFor="departure-date"
-                sx={{ mb: 1, fontWeight: 500 }}
-              >
-                Departure Date
-              </FormLabel>
+            <FormField
+              id="departure-date"
+              label="Departure Date"
+              required
+            >
               <DatePickerWrapper
-                id="departure-date"
                 label=""
                 value={formData.departureDate}
                 onChange={(date) => updateFormData({ departureDate: date })}
                 disablePast
-                required
               />
-            </FormControl>
+            </FormField>
 
-            <FormControl fullWidth>
-              <FormLabel 
-                htmlFor="return-date"
-                sx={{ mb: 1, fontWeight: 500 }}
-              >
-                Return Date
-              </FormLabel>
+            <FormField
+              id="return-date"
+              label="Return Date"
+              required
+              error={formData.returnDate ? !isReturnDateValid(formData.returnDate) : false}
+              helperText={formData.returnDate && !isReturnDateValid(formData.returnDate) 
+                ? "Return date must be after departure date" 
+                : ""}
+            >
               <DatePickerWrapper
-                id="return-date"
                 label=""
                 value={formData.returnDate}
                 onChange={(date) => updateFormData({ returnDate: date })}
                 disablePast
                 minDate={formData.departureDate || undefined}
-                required
-                error={formData.returnDate ? !isReturnDateValid(formData.returnDate) : false}
-                helperText={formData.returnDate && !isReturnDateValid(formData.returnDate) 
-                  ? "Return date must be after departure date" 
-                  : ""}
               />
-            </FormControl>
+            </FormField>
           </Stack>
 
           {formData.destination && flightClasses.length > 0 && (
-            <FormControl component="fieldset">
-              <FormLabel 
-                component="legend"
-                sx={{ mb: 1, fontWeight: 500 }}
-              >
-                Flight Class
-              </FormLabel>
+            <FormField
+              id="flight-class"
+              label="Flight Class"
+            >
               <RadioGroup
                 name="flight-class"
                 value={formData.flightClass || ''}
@@ -151,7 +135,7 @@ const Step1TravelInfo = ({ formData, updateFormData }: Step1TravelInfoProps) => 
                   />
                 ))}
               </RadioGroup>
-            </FormControl>
+            </FormField>
           )}
         </Stack>
       )}
