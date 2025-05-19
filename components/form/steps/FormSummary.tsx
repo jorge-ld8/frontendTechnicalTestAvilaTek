@@ -128,12 +128,9 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
               <ListItemText
                 primary={traveler.fullName}
                 secondary={
-                  <>
-                    <Typography component="span" variant="body2" color="text.secondary">
-                      DOB: {formatDate(traveler.dateOfBirth)} • 
-                      {traveler.documentType}: {traveler.documentNumber}
-                    </Typography>
-                  </>
+                  <Typography variant="body2" color="text.secondary" component="span">
+                    DOB: {formatDate(traveler.dateOfBirth)} • {traveler.documentType}: {traveler.documentNumber}
+                  </Typography>
                 }
               />
             </ListItem>
@@ -142,7 +139,7 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
         
         {step2.pets.hasPets && (
           <Box sx={{ mt: 2 }}>
-            <Typography variant="body2">
+            <Typography variant="body2" component="span">
               Traveling with {step2.pets.quantity} pet{step2.pets.quantity !== 1 ? 's' : ''}
               <Chip 
                 size="small" 
@@ -157,7 +154,7 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
         
         {step2.extraLuggage.hasExtraLuggage && (
           <Box sx={{ mt: 1 }}>
-            <Typography variant="body2">
+            <Typography variant="body2" component="span">
               {step2.extraLuggage.quantity} extra luggage item{step2.extraLuggage.quantity !== 1 ? 's' : ''}
               <Chip 
                 size="small" 
