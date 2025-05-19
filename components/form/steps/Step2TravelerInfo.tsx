@@ -5,22 +5,21 @@ import {
   Box,
   Typography,
   Stack,
-  TextField,
   FormControlLabel,
   Switch,
   FormControl,
   FormLabel,
   Paper,
   Divider,
+  IconButton,
+  OutlinedInput,
+  TextField,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import TravelerForm from '../TravelerForm';
 import { Step2FormData, TravelerFormData } from '../../../types/form.types';
-
-// Constants
-const MIN_TRAVELERS = 1;
-const MAX_TRAVELERS = 10;
-const PET_PRICE = 100;
-const LUGGAGE_PRICE = 50;
+import { MIN_TRAVELERS, MAX_TRAVELERS, PET_PRICE, LUGGAGE_PRICE } from '../../../constants/formConstants';
 
 const createDefaultTraveler = (): TravelerFormData => ({
   fullName: '',
@@ -39,17 +38,44 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
   const [petsCost, setPetsCost] = useState(0);
   const [luggageCost, setLuggageCost] = useState(0);
 
-  // Handle number of travelers change
-  const handleTravelersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value);
-    if (isNaN(value) || value < MIN_TRAVELERS) {
-      return; 
-    }
-
-    const numTravelers = Math.min(value, MAX_TRAVELERS);
+  // Handle number of travelers changes
+  const handleIncreaseTravelers = () => {
+    if (formData.numberOfTravelers >= MAX_TRAVELERS) return;
+    
+    const newTravelersCount = formData.numberOfTravelers + 1;
     const currentTravelers = [...formData.travelers];
     
+    // Add a new traveler
+    updateFormData({
+      numberOfTravelers: newTravelersCount,
+      travelers: [...currentTravelers, createDefaultTraveler()],
+    });
+  };
+
+  const handleDecreaseTravelers = () => {
+    if (formData.numberOfTravelers <= MIN_TRAVELERS) return;
+    
+    const newTravelersCount = formData.numberOfTravelers - 1;
+    const currentTravelers = [...formData.travelers];
+    
+    // Remove the last traveler
+    updateFormData({
+      numberOfTravelers: newTravelersCount,
+      travelers: currentTravelers.slice(0, newTravelersCount),
+    });
+  };
+
+  // For direct input changes
+  const handleTravelersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (isNaN(value)) return;
+    
+    const numTravelers = Math.max(MIN_TRAVELERS, Math.min(value, MAX_TRAVELERS));
+    const currentTravelers = [...formData.travelers];
+    
+    // Add or remove travelers as needed
     if (numTravelers > currentTravelers.length) {
+      // Need to add more travelers
       const newTravelers = Array(numTravelers - currentTravelers.length)
         .fill(null)
         .map(() => createDefaultTraveler());
@@ -148,18 +174,46 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
 
       <Stack spacing={2}>
         <FormControl fullWidth>
-          <FormLabel htmlFor="numTravelers" sx={{ fontWeight: 500 }}>
+          <FormLabel htmlFor="numTravelers" sx={{ fontWeight: 500, mb: 1 }}>
             Number of Travelers
           </FormLabel>
-          <TextField
-            id="numTravelers"
-            type="number"
-            value={formData.numberOfTravelers}
-            onChange={handleTravelersChange}
-            size="small"
-            required
-            helperText={`Please specify between ${MIN_TRAVELERS} and ${MAX_TRAVELERS} travelers`}
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton 
+              size="small" 
+              onClick={handleDecreaseTravelers} 
+              disabled={formData.numberOfTravelers <= MIN_TRAVELERS}
+              sx={{ bgcolor: 'background.default' }}
+            >
+              <RemoveIcon />
+            </IconButton>
+            
+            <OutlinedInput
+              id="numTravelers"
+              type="number"
+              value={formData.numberOfTravelers}
+              onChange={handleTravelersChange}
+              size="small"
+              sx={{ 
+                mx: 1, 
+                width: '80px', 
+                '& input': { textAlign: 'center' } 
+              }}
+              required
+            />
+            
+            <IconButton 
+              size="small" 
+              onClick={handleIncreaseTravelers} 
+              disabled={formData.numberOfTravelers >= MAX_TRAVELERS}
+              sx={{ bgcolor: 'background.default' }}
+            >
+              <AddIcon />
+            </IconButton>
+            
+            <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+              {`(Min: ${MIN_TRAVELERS}, Max: ${MAX_TRAVELERS})`}
+            </Typography>
+          </Box>
         </FormControl>
 
         {/* Traveler Forms - Compact collection */}
@@ -283,4 +337,4 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
   );
 };
 
-export default Step2TravelerInfo; 
+export default Step2TravelerInfo;
