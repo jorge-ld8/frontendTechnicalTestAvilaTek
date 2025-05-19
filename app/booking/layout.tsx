@@ -1,17 +1,15 @@
-'use client';
+import "../globals.css";
+import { MultiStepFormProvider } from '../../context/MultiStepFormContext';
+import { Box, Container, Paper, Typography } from '@mui/material';
+import Header from '../../components/layout/Header';
+import Footer from '../../components/layout/Footer';
+import StepperComponent from '../../components/form/StepperComponent';
 
-import { Box, Container, Paper, Typography, Button } from '@mui/material';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
-import { useRouter } from 'next/navigation';
-
-export default function Home() {
-  const router = useRouter();
-
-  const handleStartBooking = () => {
-    router.push('/booking');
-  };
-
+export default function BookingLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
@@ -49,7 +47,7 @@ export default function Home() {
               color: 'text.primary',
             }}
           >
-            Welcome to Globetrotter
+            Plan Your Journey
           </Typography>
           
           <Typography 
@@ -58,20 +56,13 @@ export default function Home() {
             color="text.secondary"
             sx={{ mb: 4 }}
           >
-            Your journey to discover the world starts here. Book your next adventure with our easy to use system.
+            Complete the form below to book your next adventure.
           </Typography>
-          
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={handleStartBooking}
-              sx={{ px: 4, py: 1.5 }}
-            >
-              Start Booking
-            </Button>
-          </Box>
+
+          <MultiStepFormProvider>
+            <StepperComponent />
+            {children}
+          </MultiStepFormProvider>
         </Paper>
       </Container>
       

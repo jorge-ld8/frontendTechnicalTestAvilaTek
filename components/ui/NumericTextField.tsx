@@ -4,11 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   TextField, 
   TextFieldProps,
-  InputAdornment,
-  IconButton
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 
 interface NumericTextFieldProps extends Omit<TextFieldProps, 'onChange' | 'type'> {
   value: string | number;
@@ -18,26 +14,15 @@ interface NumericTextFieldProps extends Omit<TextFieldProps, 'onChange' | 'type'
   step?: number;
   allowDecimals?: boolean;
   allowNegative?: boolean;
-  showStepper?: boolean;
-  adornment?: React.ReactNode;
-  adornmentPosition?: 'start' | 'end';
 }
 
-/**
- * A reusable numeric text field component that accepts only valid numeric input
- * and provides additional features like step buttons, min/max validation, etc.
- */
 const NumericTextField = ({
   value,
   onChange,
   min,
   max,
-  step = 1,
   allowDecimals = false,
   allowNegative = false,
-  showStepper = false,
-  adornment,
-  adornmentPosition = 'start',
   onBlur,
   error,
   helperText,
@@ -101,29 +86,6 @@ const NumericTextField = ({
     }
   };
 
-  // Handle value incrementing/decrementing
-  const handleStep = (direction: 'up' | 'down') => {
-    // Get numeric value or default to 0
-    const numValue = allowDecimals 
-      ? parseFloat(localValue || '0') 
-      : parseInt(localValue || '0', 10);
-
-    if (isNaN(numValue)) return;
-
-    let newValue = direction === 'up' ? numValue + step : numValue - step;
-    
-    // Respect min/max boundaries
-    if (min !== undefined) newValue = Math.max(min, newValue);
-    if (max !== undefined) newValue = Math.min(max, newValue);
-    
-    // Format the new value
-    const formattedValue = allowDecimals ? newValue.toString() : Math.floor(newValue).toString();
-    
-    setLocalValue(formattedValue);
-    onChange(formattedValue);
-    setLocalError(null);
-  };
-
   // Custom blur handling to normalize value
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     // If empty, set to min or 0
@@ -139,34 +101,7 @@ const NumericTextField = ({
     }
   };
 
-  // Configure input adornments
-  const startAdornment = adornmentPosition === 'start' && adornment ? (
-    <InputAdornment position="start">{adornment}</InputAdornment>
-  ) : undefined;
 
-  const endAdornment = (
-    <InputAdornment position="end">
-      {showStepper && (
-        <>
-          <IconButton 
-            size="small" 
-            onClick={() => handleStep('down')}
-            disabled={min !== undefined && (localValue === '' || parseFloat(localValue) <= min)}
-          >
-            <RemoveIcon fontSize="small" />
-          </IconButton>
-          <IconButton 
-            size="small" 
-            onClick={() => handleStep('up')}
-            disabled={max !== undefined && (localValue !== '' && parseFloat(localValue) >= max)}
-          >
-            <AddIcon fontSize="small" />
-          </IconButton>
-        </>
-      )}
-      {adornmentPosition === 'end' && adornment ? adornment : null}
-    </InputAdornment>
-  );
 
   return (
     <TextField
@@ -178,15 +113,6 @@ const NumericTextField = ({
       error={error || !!localError}
       helperText={localError || helperText}
       size={size}
-      InputProps={{
-        startAdornment,
-        endAdornment: (showStepper || (adornmentPosition === 'end' && adornment)) ? endAdornment : undefined,
-        ...rest.InputProps,
-      }}
-      inputProps={{
-        inputMode: 'numeric',
-        ...rest.inputProps,
-      }}
     />
   );
 };
