@@ -6,51 +6,8 @@ import Step1TravelInfo from './steps/Step1TravelInfo';
 import Step2TravelerInfo from './steps/Step2TravelerInfo';
 import Step3AdditionalServices from './steps/Step3AdditionalServices';
 import { Step1FormData, Step2FormData, Step3FormData, FormStep } from '../../types/form.types';
+import { initialStep1Data, initialStep2Data, initialStep3Data, steps } from '@/constants/formConstants';
 
-// Initialize with empty default values
-const initialStep1Data: Step1FormData = {
-  destination: null,
-  departureDate: null,
-  returnDate: null,
-  flightClass: null,
-  priceUSD: 0
-};
-
-// Initialize Step 2 data with default values
-const initialStep2Data: Step2FormData = {
-  numberOfTravelers: 1,
-  travelers: [
-    {
-      fullName: '',
-      dateOfBirth: null,
-      documentType: 'passport',
-      documentNumber: '',
-    },
-  ],
-  pets: {
-    hasPets: false,
-    quantity: 0,
-  },
-  extraLuggage: {
-    hasExtraLuggage: false,
-    quantity: 0, 
-  },
-};
-
-// Initialize Step 3 data with default values
-const initialStep3Data: Step3FormData = {
-  travelInsurance: false,
-  preferentialSeats: false,
-  specialAssistance: false,
-  assistanceNotes: '',
-};
-
-const steps = [
-  'Travel Information',
-  'Traveler Information',
-  'Additional Services',
-  'Review & Confirm'
-];
 
 const BookingForm = () => {
   const [activeStep, setActiveStep] = useState<FormStep>(1);
@@ -110,18 +67,16 @@ const BookingForm = () => {
   };
 
   const isStep3Valid = () => {
-    // If special assistance is enabled, notes should not be empty and under 200 characters
     if (step3Data.specialAssistance) {
       return step3Data.assistanceNotes.trim() !== '' && step3Data.assistanceNotes.length <= 200;
     }
-    // Otherwise, no validation needed for step 3
     return true;
   };
 
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep - 1} alternativeLabel sx={{ mb: 4 }}>
-        {steps.map((label) => (
+        {steps.map((label: string) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
