@@ -15,9 +15,7 @@ import {
   Alert,
   Stack
 } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import DatePickerWrapper from '../../ui/DatePickerWrapper';
 import { FlightClassWithPrice } from '../../../types/flight.types';
 import { useDestinations, useFlightClasses, useFlightClassesAndPrices } from '../../../hooks/useFlights';
 import { Step1FormData } from '../../../types/form.types';
@@ -28,10 +26,8 @@ interface Step1TravelInfoProps {
 }
 
 const Step1TravelInfo = ({ formData, updateFormData }: Step1TravelInfoProps) => {
-  // Using custom hooks instead of useEffect
   const { destinations, status, error } = useDestinations();
   const flightClasses = useFlightClasses(formData.destination || '');
-
   const classesAndPrices: FlightClassWithPrice[] = useFlightClassesAndPrices(formData.destination);
   
   const handleDestinationChange = (_: SyntheticEvent, value: string | null) => {
@@ -41,7 +37,6 @@ const Step1TravelInfo = ({ formData, updateFormData }: Step1TravelInfoProps) => 
     });
   };
 
-  // Validate that return date is after departure date
   const isReturnDateValid = (date: Date | null) => {
     if (!date || !formData.departureDate) return true;
     return date >= formData.departureDate;
@@ -84,60 +79,54 @@ const Step1TravelInfo = ({ formData, updateFormData }: Step1TravelInfoProps) => 
                   {...params} 
                   placeholder="Select your destination" 
                   required
+                  size="small"
+                  margin="dense"
                 />
               )}
               isOptionEqualToValue={(option, value) => option === value}
             />
           </FormControl>
 
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              <FormControl fullWidth>
-                <FormLabel 
-                  htmlFor="departure-date"
-                  sx={{ mb: 1, fontWeight: 500 }}
-                >
-                  Departure Date
-                </FormLabel>
-                <DatePicker
-                  value={formData.departureDate}
-                  onChange={(date) => updateFormData({ departureDate: date })}
-                  disablePast
-                  slotProps={{
-                    textField: { 
-                      required: true,
-                      id: "departure-date"
-                    }
-                  }}
-                />
-              </FormControl>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <FormControl fullWidth>
+              <FormLabel 
+                htmlFor="departure-date"
+                sx={{ mb: 1, fontWeight: 500 }}
+              >
+                Departure Date
+              </FormLabel>
+              <DatePickerWrapper
+                id="departure-date"
+                label=""
+                value={formData.departureDate}
+                onChange={(date) => updateFormData({ departureDate: date })}
+                disablePast
+                required
+              />
+            </FormControl>
 
-              <FormControl fullWidth>
-                <FormLabel 
-                  htmlFor="return-date"
-                  sx={{ mb: 1, fontWeight: 500 }}
-                >
-                  Return Date
-                </FormLabel>
-                <DatePicker
-                  value={formData.returnDate}
-                  onChange={(date) => updateFormData({ returnDate: date })}
-                  disablePast
-                  minDate={formData.departureDate || undefined}
-                  slotProps={{
-                    textField: { 
-                      required: true,
-                      id: "return-date",
-                      error: formData.returnDate ? !isReturnDateValid(formData.returnDate) : false,
-                      helperText: formData.returnDate && !isReturnDateValid(formData.returnDate) 
-                        ? "Return date must be after departure date" 
-                        : ""
-                    }
-                  }}
-                />
-              </FormControl>
-            </Stack>
-          </LocalizationProvider>
+            <FormControl fullWidth>
+              <FormLabel 
+                htmlFor="return-date"
+                sx={{ mb: 1, fontWeight: 500 }}
+              >
+                Return Date
+              </FormLabel>
+              <DatePickerWrapper
+                id="return-date"
+                label=""
+                value={formData.returnDate}
+                onChange={(date) => updateFormData({ returnDate: date })}
+                disablePast
+                minDate={formData.departureDate || undefined}
+                required
+                error={formData.returnDate ? !isReturnDateValid(formData.returnDate) : false}
+                helperText={formData.returnDate && !isReturnDateValid(formData.returnDate) 
+                  ? "Return date must be after departure date" 
+                  : ""}
+              />
+            </FormControl>
+          </Stack>
 
           {formData.destination && flightClasses.length > 0 && (
             <FormControl component="fieldset">
@@ -157,7 +146,7 @@ const Step1TravelInfo = ({ formData, updateFormData }: Step1TravelInfoProps) => 
                   <FormControlLabel
                     key={cls.class}
                     value={cls.class}
-                    control={<Radio />}
+                    control={<Radio size="small" />}
                     label={`${cls.class} - $${cls.priceUSD}`}
                   />
                 ))}

@@ -34,11 +34,9 @@ interface Step2TravelerInfoProps {
 }
 
 const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps) => {
-  // Local state to track cost calculations
   const [petsCost, setPetsCost] = useState(0);
   const [luggageCost, setLuggageCost] = useState(0);
 
-  // Handle number of travelers changes
   const handleIncreaseTravelers = () => {
     if (formData.numberOfTravelers >= MAX_TRAVELERS) return;
     
@@ -75,7 +73,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
     
     // Add or remove travelers as needed
     if (numTravelers > currentTravelers.length) {
-      // Need to add more travelers
       const newTravelers = Array(numTravelers - currentTravelers.length)
         .fill(null)
         .map(() => createDefaultTraveler());
