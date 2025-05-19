@@ -43,7 +43,6 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
   const [openDialog, setOpenDialog] = useState(false);
   const router = useRouter();
 
-  // Format date for display
   const formatDate = (date: Date | null) => {
     if (!date) return 'Not specified';
     return format(date, 'MMMM d, yyyy');
@@ -53,12 +52,10 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
   const calculateTotal = () => {
     let total = step1.priceUSD || 0;
     
-    // Add pet costs
     if (step2.pets.hasPets) {
       total += step2.pets.quantity * PET_PRICE; 
     }
     
-    // Add extra luggage costs
     if (step2.extraLuggage.hasExtraLuggage) {
       total += step2.extraLuggage.quantity * LUGGAGE_PRICE; 
     }
