@@ -29,8 +29,6 @@ interface SuccessDialogProps {
   title: string;
   destinationName: string;
   buttonText?: string;
-  showConfetti?: boolean;
-  confettiDuration?: number;
 }
 
 const SuccessDialog = ({

@@ -235,8 +235,6 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
         onClose={handleCloseDialog}
         title="¡Reserva Confirmada!"
         destinationName={step1.destination || ''}
-        showConfetti={true}
-        confettiDuration={6000}
       />
     </Box>
   );
