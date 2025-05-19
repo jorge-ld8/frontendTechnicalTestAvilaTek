@@ -174,7 +174,7 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
         </Typography>
         <Stack spacing={2}>
           <Box>
-            <Typography variant="body2">
+            <Typography variant="body2" component="span">
               Travel Insurance: {step3.travelInsurance ? 'Yes' : 'No'}
               {step3.travelInsurance && (
                 <Chip size="small" label={`$${INSURANCE_PRICE}`} color="primary" variant="outlined" sx={{ ml: 1 }} />
@@ -182,7 +182,7 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
             </Typography>
           </Box>
           <Box>
-            <Typography variant="body2">
+            <Typography variant="body2" component="span">
               Preferential Seats: {step3.preferentialSeats ? 'Yes' : 'No'}
               {step3.preferentialSeats && (
                 <Chip 
@@ -196,7 +196,7 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
             </Typography>
           </Box>
           <Box>
-            <Typography variant="body2">
+            <Typography variant="body2" component="span">
               Special Assistance: {step3.specialAssistance ? 'Yes' : 'No'}
             </Typography>
             {step3.specialAssistance && step3.assistanceNotes && (
