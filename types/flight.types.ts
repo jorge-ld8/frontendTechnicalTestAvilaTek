@@ -1,15 +1,3 @@
-
-export interface FlightClass {
-  name: string;
-}
-
-export interface Flight {
-  id: string;
-  destination: DestinationOption;
-  class: FlightClass;
-  priceUSD: number;
-}
-
 export interface FlightResponse{
     destination: string;
     class: string;
@@ -19,11 +7,6 @@ export interface FlightResponse{
 export interface FlightClassWithPrice {
   class: string;
   priceUSD: number;
-}
-
-export interface DestinationOption {
-  label: string;
-  id: string;
 }
 
 export interface Step1FormData {
