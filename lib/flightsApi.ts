@@ -1,6 +1,6 @@
 import { FlightResponse, FlightClassWithPrice } from '../types/flight.types';
 
-const FLIGHTS_API_URL = 'https://raw.githubusercontent.com/Lstanislao/cities-permalink/main/flights.json';
+const FLIGHTS_API_URL : string = process.env.NEXT_PUBLIC_FLIGHTS_API_URL || '';
 
 export const fetchFlights = async (): Promise<FlightResponse[]> => {
   try {

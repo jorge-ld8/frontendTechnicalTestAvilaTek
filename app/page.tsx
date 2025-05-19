@@ -1,16 +1,11 @@
 'use client';
 
 import { Box, Container, Paper, Typography, Button } from '@mui/material';
+import Link from 'next/link';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleStartBooking = () => {
-    router.push('/booking');
-  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -62,15 +57,16 @@ export default function Home() {
           </Typography>
           
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={handleStartBooking}
-              sx={{ px: 4, py: 1.5 }}
+            <Link href="/booking">
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                sx={{ px: 4, py: 1.5 }}
             >
               Start Booking
             </Button>
+            </Link>
           </Box>
         </Paper>
       </Container>
