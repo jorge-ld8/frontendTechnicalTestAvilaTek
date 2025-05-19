@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <MuiThemeProvider>
           <QueryProvider>
-            {children}
+        {children}
           </QueryProvider>
         </MuiThemeProvider>
       </body>

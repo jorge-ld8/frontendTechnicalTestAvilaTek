@@ -21,7 +21,7 @@ export default function Home() {
           flexDirection: 'column',
           alignItems: 'center',
         }}
-      >
+          >
         <Paper 
           elevation={0}
           sx={{ 
