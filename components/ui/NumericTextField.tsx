@@ -32,16 +32,13 @@ const NumericTextField = ({
   const [localValue, setLocalValue] = useState<string>(value.toString());
   const [localError, setLocalError] = useState<string | null>(null);
 
-  // Update local value when prop value changes
   useEffect(() => {
     setLocalValue(value.toString());
   }, [value]);
 
-  // Validate and handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     
-    // Empty value is always allowed
     if (inputValue === '') {
       setLocalValue('');
       onChange('');
@@ -49,7 +46,6 @@ const NumericTextField = ({
       return;
     }
 
-    // Define the regex pattern based on props
     const pattern = allowDecimals
       ? allowNegative 
         ? /^-?\d*\.?\d*$/ // Negative with decimals
@@ -58,7 +54,6 @@ const NumericTextField = ({
         ? /^-?\d*$/       // Negative integers only
         : /^\d*$/;        // Positive integers only
 
-    // Validate input against the pattern
     if (!pattern.test(inputValue)) {
       return; // Don't update if invalid
     }

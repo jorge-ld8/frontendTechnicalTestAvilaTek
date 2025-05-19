@@ -10,29 +10,14 @@ import {
   ListItem,
   ListItemText,
   Stack,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Slide,
-  Fade
+  Button
 } from '@mui/material';
 import { format } from 'date-fns';
 import { BookingFormData } from '../../../types/form.types';
-import { useState, forwardRef, ReactElement } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { TransitionProps } from '@mui/material/transitions';
+import SuccessDialog from '../../ui/SuccessDialog';
 import { INSURANCE_PRICE, LUGGAGE_PRICE, PREFERENTIAL_SEATS_PRICE, PET_PRICE } from '@/constants/formConstants';
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children: ReactElement },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 interface FormSummaryProps {
   formData: BookingFormData;
@@ -245,68 +230,14 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
         </Button>
       </Box>
 
-      <Dialog
+      <SuccessDialog
         open={openDialog}
-        TransitionComponent={Transition}
-        keepMounted
         onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
-        PaperProps={{
-          sx: {
-            borderRadius: 2,
-            maxWidth: 420,
-            p: 2,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-            textAlign: 'center',
-          }
-        }}
-      >
-        <DialogTitle id="alert-dialog-slide-title" sx={{ pt: 3, pb: 1 }}>
-          <Fade in={openDialog} timeout={700}>
-            <CheckCircleOutlineIcon color="success" sx={{ fontSize: 64, mb: 1.5 }} />
-          </Fade>
-          <Fade in={openDialog} timeout={900} style={{ transitionDelay: openDialog ? '200ms' : '0ms' }}>
-            <Typography variant="h5" component="div" fontWeight="bold" color="text.primary">
-              ¡Reserva Confirmada!
-            </Typography>
-          </Fade>
-        </DialogTitle>
-        <DialogContent sx={{ pb: 1 }}>
-          <Fade in={openDialog} timeout={900} style={{ transitionDelay: openDialog ? '400ms' : '0ms' }}>
-            <DialogContentText id="alert-dialog-slide-description" color="text.secondary">
-              Tu reserva para <b>{step1.destination || 'el destino seleccionado'}</b> ha sido confirmada exitosamente.
-              <br />
-              Gracias por elegir Globetrotter para tu próxima aventura.
-            </DialogContentText>
-          </Fade>
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: 'center', pb: 3, pt: 1 }}>
-          <Fade in={openDialog} timeout={900} style={{ transitionDelay: openDialog ? '600ms' : '0ms' }}>
-            <Button 
-              onClick={handleCloseDialog}
-              variant="contained" 
-              color="primary" 
-              autoFocus
-              sx={{ 
-                px: 4, 
-                py: 1.25, 
-                borderRadius: '50px',
-                fontWeight: 'bold',
-                minWidth: 160,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-                '&:hover': {
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 6px 16px rgba(0,0,0,0.2)',
-                }
-              }}
-            >
-              Aceptar
-            </Button>
-          </Fade>
-        </DialogActions>
-      </Dialog>
+        title="¡Reserva Confirmada!"
+        destinationName={step1.destination || ''}
+        showConfetti={true}
+        confettiDuration={6000}
+      />
     </Box>
   );
 };
