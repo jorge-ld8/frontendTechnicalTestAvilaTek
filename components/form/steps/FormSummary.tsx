@@ -72,7 +72,6 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
   };
 
   const handleConfirmReservation = () => {
-    console.log('Reservation confirmed with data:', formData);
     setOpenDialog(true);
   };
   
