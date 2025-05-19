@@ -3,6 +3,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
+import BookingForm from '../components/form/BookingForm';
 
 export default function Home() {
   return (
@@ -54,12 +55,7 @@ export default function Home() {
             Welcome to Globetrotter. Complete the form below to book your next adventure.
           </Typography>
           
-          {/* Booking form will be implemented in the next phase */}
-          <Box sx={{ mt: 4, p: 3, bgcolor: 'background.default', borderRadius: 1 }}>
-            <Typography align="center" color="text.secondary">
-              Booking form will be implemented later
-            </Typography>
-          </Box>
+          <BookingForm />
         </Paper>
       </Container>
       
