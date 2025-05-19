@@ -31,7 +31,6 @@ const TravelerForm = ({ traveler, index, updateTraveler }: TravelerFormProps) =>
     updateTraveler(index, { [field]: value });
   };
 
-  // Determine if document number should be numeric only based on document type
   const isNumericDocType = traveler.documentType === 'id' || traveler.documentType === 'driverLicense';
 
   return (

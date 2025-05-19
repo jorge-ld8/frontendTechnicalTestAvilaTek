@@ -254,9 +254,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
                       step={1}
                       allowDecimals={false}
                       allowNegative={false}
-                      showStepper
-                      adornment={`$${formData.pets.quantity * PET_PRICE}`}
-                      adornmentPosition="end"
                       fullWidth
                     />
                   </FormField>
@@ -289,9 +286,6 @@ const Step2TravelerInfo = ({ formData, updateFormData }: Step2TravelerInfoProps)
                       step={1}
                       allowDecimals={false}
                       allowNegative={false}
-                      showStepper
-                      adornment={`$${formData.extraLuggage.quantity * LUGGAGE_PRICE}`}
-                      adornmentPosition="end"
                       fullWidth
                     />
                   </FormField>

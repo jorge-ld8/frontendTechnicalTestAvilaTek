@@ -4,6 +4,8 @@ export const MIN_TRAVELERS = 1;
 export const MAX_TRAVELERS = 10;
 export const PET_PRICE = 100;
 export const LUGGAGE_PRICE = 50; 
+export const INSURANCE_PRICE = 30;
+export const PREFERENTIAL_SEATS_PRICE = 25;
 
 export const initialStep1Data: Step1FormData = {
     destination: null,

@@ -45,6 +45,7 @@ export const formReducer = (state: FormState, action: FormAction): FormState => 
         const targetStep = action.step;
         let newData = { ...state.data };
 
+        // If navigating backward or jumping to an earlier step
         if (targetStep < state.currentStep) {
           if (targetStep === 1) {
             newData = {
