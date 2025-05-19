@@ -1,6 +1,6 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-const theme = createTheme({
+const baseTheme = createTheme({
   palette: {
     primary: {
       main: '#3498db', 
@@ -109,7 +109,28 @@ const theme = createTheme({
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          // Apply globally for all typography
+          '@media (max-width:600px)': {
+            lineHeight: 1.4,
+          },
+        },
+      },
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
   },
 });
+
+const theme = responsiveFontSizes(baseTheme, { factor: 0.8 });
 
 export default theme; 
