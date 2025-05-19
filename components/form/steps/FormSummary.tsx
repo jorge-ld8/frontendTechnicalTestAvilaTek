@@ -50,7 +50,8 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
 
   // Calculate total cost
   const calculateTotal = () => {
-    let total = step1.priceUSD || 0;
+    const NUM_TRAVELERS = step2.numberOfTravelers;
+    let total = step1.priceUSD*NUM_TRAVELERS || 0;
     
     if (step2.pets.hasPets) {
       total += step2.pets.quantity * PET_PRICE; 
@@ -61,11 +62,11 @@ const FormSummary = ({ formData }: FormSummaryProps) => {
     }
     
     if (step3.travelInsurance) {
-      total += INSURANCE_PRICE;
+      total += INSURANCE_PRICE * NUM_TRAVELERS;
     }
     
     if (step3.preferentialSeats) {
-      total += PREFERENTIAL_SEATS_PRICE * step2.numberOfTravelers; 
+      total += PREFERENTIAL_SEATS_PRICE * NUM_TRAVELERS; 
     }
     
     return total;
