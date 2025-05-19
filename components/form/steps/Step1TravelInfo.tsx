@@ -18,8 +18,9 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { Step1FormData, FlightClassWithPrice } from '../../../types/flight.types';
+import { FlightClassWithPrice } from '../../../types/flight.types';
 import { useDestinations, useFlightClasses, useFlightClassesAndPrices } from '../../../hooks/useFlights';
+import { Step1FormData } from '../../../types/form.types';
 
 interface Step1TravelInfoProps {
   formData: Step1FormData;

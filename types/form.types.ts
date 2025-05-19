@@ -1,5 +1,3 @@
-import { Step1FormData } from './flight.types';
-
 export type FormStep = 1 | 2 | 3 | 4;
 
 export interface TravelerFormData {
@@ -18,6 +16,14 @@ export interface LuggageData {
   hasExtraLuggage: boolean;
   quantity: number;
 }
+
+export interface Step1FormData {
+  destination: string | null;
+  departureDate: Date | null;
+  returnDate: Date | null;
+  flightClass: string | null;
+  priceUSD: number;
+} 
 
 export interface Step2FormData {
   numberOfTravelers: number;

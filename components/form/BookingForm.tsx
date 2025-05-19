@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Box, Button, Stepper, Step, StepLabel, Paper } from '@mui/material';
 import Step1TravelInfo from './steps/Step1TravelInfo';
-import { Step1FormData } from '../../types/flight.types';
+import { Step1FormData } from '../../types/form.types';
 import { FormStep } from '../../types/form.types';
 
 // Initialize with empty default values
