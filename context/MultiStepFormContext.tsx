@@ -23,15 +23,10 @@ export interface PartialFormData {
   step3?: Partial<Step3FormData>;
 }
 
-
-
 // Create the context
 interface MultiStepFormContextType {
   state: FormState;
   dispatch: Dispatch<FormAction>;
-  isStep1Valid: () => boolean;
-  isStep2Valid: () => boolean;
-  isStep3Valid: () => boolean;
   totalSteps: number;
 }
 
@@ -59,51 +54,9 @@ const initialState: FormState = {
 export function MultiStepFormProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(formReducer, initialState);
 
-  // Validation functions for each step
-  const isStep1Valid = () => {
-    const step1 = state.data.step1;
-    return !!(
-      step1 &&
-      step1.destination &&
-      step1.departureDate &&
-      step1.returnDate &&
-      step1.flightClass
-    );
-  };
-
-  const isStep2Valid = () => {
-    const step2 = state.data.step2;
-    if (!step2) return false;
-    
-    return (
-      step2.numberOfTravelers > 0 &&
-      step2.travelers.length > 0 &&
-      step2.travelers.every(traveler =>
-        traveler.fullName.trim() !== '' &&
-        traveler.dateOfBirth !== null &&
-        traveler.documentType !== '' &&
-        traveler.documentNumber.trim() !== ''
-      )
-    );
-  };
-
-  const isStep3Valid = () => {
-    const step3 = state.data.step3;
-    if (!step3) return false;
-    
-    if (step3.specialAssistance) {
-      return step3.assistanceNotes.trim() !== '' && step3.assistanceNotes.length <= 200;
-    }
-    
-    return true;
-  };
-
   const value = {
     state,
     dispatch,
-    isStep1Valid,
-    isStep2Valid,
-    isStep3Valid,
     totalSteps: 4, 
   };
 
